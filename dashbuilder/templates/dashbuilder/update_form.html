@@ -1,0 +1,29 @@
+{% extends 'dashbuilder/base.html' %}
+
+{% block body %}
+<header class="page-title">
+<h1>Update {{ verbose_name }}</h1>
+</header>
+
+<form action="." method="post">
+
+  {% csrf_token %}
+
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+    {% for field in form.visible_fields %}
+    <div class="control-group{% if field.errors%} error{% endif %}">
+            {{ field.errors }}
+            {{ field.label_tag }}
+            <div class="controls">{{ field }}
+              {% if field.field.help_text %}<span class="help-inline">{{ field.field.help_text|safe }}</span>{% endif %}
+            </div>
+        </div>
+  {% endfor %}
+  <div class="form-actions">
+    <button class="btn btn-primary">Create</button>
+  </div>
+</form>
+{% endblock %}
+

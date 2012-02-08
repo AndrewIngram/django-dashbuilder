@@ -5,6 +5,7 @@
 <h1>Listing {{ verbose_name_plural }}</h1>
 </header>
 
+{% if object_list %}
 <form action="." method="post">
 
     {% csrf_token %}
@@ -16,6 +17,7 @@
         {% for field in field_list %}
         <th>{{ field }}</th>
         {% endfor %}
+        <th>Actions</th>
     </thead>
 <tbody>
         {% for form in formset %}
@@ -27,9 +29,20 @@
             {% endfor %}
         </tr>
         {% endfor %}
-    </tbody>
-</table>
-<button class="btn btn-primary">Update</button>
+      </tbody>
+    </table>
+  <button class="btn btn-primary">Update</button>
+
+
 </form>
+
+  <div class="form-actions">
+  <a class="btn" href="{% url create-redirect %}">New {{ verbose_name }}</a>
+</div>  
+
+
+{% else %}
+<p>No {{ verbose_name_plural }} found</p>
+{% endif %}
 {% endblock %}
 

@@ -1,15 +1,11 @@
 from extra_views import ModelFormSetView, CreateWithInlinesView, UpdateWithInlinesView 
 
-
-class List(ModelFormSetView):
-    extra = 0
-
+class ModelViewMixin(object):
     verbose_name = None
     verbose_name_plural = None
 
-
     def get_context_data(self, **kwargs):
-        context = super(List, self).get_context_data(**kwargs)
+        context = super(ModelViewMixin, self).get_context_data(**kwargs)
 
         if self.verbose_name is None:
             context['verbose_name'] = self.model._meta.verbose_name
@@ -19,7 +15,13 @@ class List(ModelFormSetView):
             context['verbose_name_plural'] = self.model._meta.verbose_name_plural
         else:
             context['verbose_name_plural'] = self.verbose_name_plural
+        return context
 
+class List(ModelViewMixin, ModelFormSetView):
+    extra = 0
+
+    def get_context_data(self, **kwargs):
+        context = super(List, self).get_context_data(**kwargs)
         context['field_list'] = self.fields
         return context
 
@@ -35,7 +37,9 @@ class List(ModelFormSetView):
         return names
 
 
-class Create(CreateWithInlinesView):
+class Create(ModelViewMixin, CreateWithInlinesView):
+    inlines = []
+
     def get_template_names(self):
         names = [
             'dashbuilder/create_form.html',
@@ -46,34 +50,36 @@ class Create(CreateWithInlinesView):
                     (self.object._meta.app_label))
             names.insert(0, "dashbuilder/%s/%s/create_form.html" %
                 (self.object._meta.app_label,
-                    self.object._meta_object_name.lower()))
+                    self.object._meta.object_name.lower()))
         elif hasattr(self, 'model') and hasattr(self.model, '_meta'):
             names.insert(0, "dashbuilder/%s/create_form.html" %
                     (self.model._meta.app_label))
             names.insert(0, "dashbuilder/%s/%s/create_form.html" %
                 (self.model._meta.app_label,
-                    self.model._meta_object_name.lower()))
+                    self.model._meta.object_name.lower()))
         return names
 
 
-class Update(UpdateWithInlinesView):
+class Update(ModelViewMixin, UpdateWithInlinesView):
+    inlines = []
+
     def get_template_names(self):
         names = [
             'dashbuilder/update_form.html',
         ]
 
         if hasattr(self.object, '_meta'):
-            names.inset(0, "dashbuilder/%s/update_form.html" %
+            names.insert(0, "dashbuilder/%s/update_form.html" %
                     (self.object._meta.app_label))
             names.insert(0, "dashbuilder/%s/%s/update_form.html" %
                     (self.object._meta.app_label,
-                        self.object._meta_object_name.lower()))
+                        self.object._meta.object_name.lower()))
         elif hasattr(self, 'model') and hasattr(self.model, '_meta'):
             names.insert(0, "dashbuilder/%s/update_form.html" %
                     (self.model._meta.app_label))
             names.insert(0, "dashbuilder/%s/%s/update_form.html" %
                     (self.model._meta.app_label,
-                        self.model._meta_object_name.lower()))
+                        self.model._meta.object_name.lower()))
         return names
 
 
