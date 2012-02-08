@@ -1,0 +1,35 @@
+{% extends 'dashbuilder/base.html' %}
+
+{% block body %}
+<header class="page-title">
+<h1>Listing {{ verbose_name_plural }}</h1>
+</header>
+
+<form action="." method="post">
+
+    {% csrf_token %}
+
+    {{ formset.management_form }}
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        {% for field in field_list %}
+        <th>{{ field }}</th>
+        {% endfor %}
+    </thead>
+<tbody>
+        {% for form in formset %}
+        <tr>
+            {% for field in form %}
+            <td>
+                {{ field }}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<button class="btn btn-primary">Update</button>
+</form>
+{% endblock %}
+

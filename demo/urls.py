@@ -1,17 +1,12 @@
 from django.conf.urls.defaults import patterns, include, url
+from dashbuilder.views import List, Create, Update 
+from django.contrib.auth.models import User
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+class ListUsers(List):
+    model = User
+    fields = ('username', 'first_name', 'last_name',)
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'demo.views.home', name='home'),
-    # url(r'^demo/', include('demo.foo.urls')),
+    url(r'^users/', ListUsers.as_view(), name='list-users'),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
 )
