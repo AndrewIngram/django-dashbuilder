@@ -118,6 +118,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.redirects',
     'dashbuilder',
+    'django_extensions',
 )
 
 # A sample logging configuration. The only tangible logging

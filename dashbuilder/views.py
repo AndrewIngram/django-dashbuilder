@@ -3,6 +3,7 @@ from extra_views import ModelFormSetView, CreateWithInlinesView, UpdateWithInlin
 class ModelViewMixin(object):
     verbose_name = None
     verbose_name_plural = None
+    app = None
 
     def get_context_data(self, **kwargs):
         context = super(ModelViewMixin, self).get_context_data(**kwargs)
@@ -16,6 +17,7 @@ class ModelViewMixin(object):
         else:
             context['verbose_name_plural'] = self.verbose_name_plural
         return context
+
 
 class List(ModelViewMixin, ModelFormSetView):
     extra = 0

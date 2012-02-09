@@ -5,6 +5,13 @@
 <h1>Create new {{ verbose_name }}</h1>
 </header>
 
+{% if form.errors %}
+<div class="alert alert-error">
+    There was an error in your form submission, please fix the highlighted
+    fields and try again.
+</div>
+{% endif %}
+
 <form action="." method="post">
 
   {% csrf_token %}

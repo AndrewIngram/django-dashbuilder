@@ -36,13 +36,13 @@
 
 </form>
 
-  <div class="form-actions">
-  <a class="btn" href="{% url create-redirect %}">New {{ verbose_name }}</a>
-</div>  
-
-
 {% else %}
 <p>No {{ verbose_name_plural }} found</p>
 {% endif %}
+
+  <div class="form-actions">
+  <a class="btn" href="new/">New {{ verbose_name }}</a>
+</div>  
+
 {% endblock %}
 
