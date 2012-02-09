@@ -2,6 +2,17 @@
 
 {% block body %}
 <header class="page-title">
+
+<ul class="breadcrumb">
+  <li>
+  <a href="#">Dashboard</a> <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <a href="#">{{ verbose_name_plural }}</a>
+  </li>
+</ul>
+
+
 <h1>Listing {{ verbose_name_plural }}</h1>
 </header>
 

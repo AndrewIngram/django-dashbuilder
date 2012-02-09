@@ -1,7 +1,11 @@
 body {
-   padding-top: 90px;
+   padding-top: 50px;
 }
 
 header.page-title {
     margin-bottom: 2em;
+}
+
+header.page-title h1 {
+    margin-top: 1em;
 }

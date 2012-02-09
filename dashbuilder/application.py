@@ -22,6 +22,21 @@ class Application(object):
         return self.get_urls(), self.app_name, self.name
 
 
+class RegistryApplication(Application):
+    """
+    An application that has is capable of storing sub-applications.
+    Used for grouping the dashboard into sets of functionality
+    """
+    registry = []
+
+    def register(app):
+        self.registry.append(app)
+
+
+class Dashboard(RegistryApplication):
+    pass
+
+
 class ModelApplication(Application):
     model = None
     index_view = List
@@ -42,4 +57,12 @@ class ModelApplication(Application):
                     form_class=self.update_form), name='update'),
         )
         return urlpatterns
+
+
+class SectionApplication(Application):
+    name = None
+    registry = []
+
+    
+
 

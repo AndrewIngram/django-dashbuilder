@@ -6,6 +6,7 @@ from django.contrib.sites.models import Site
 
 from dashbuilder.application import ModelApplication
 
+from dashbuilder.views import Create
 
 class UsersApplication(ModelApplication):
     model = User
