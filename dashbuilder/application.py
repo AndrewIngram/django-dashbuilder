@@ -1,9 +1,11 @@
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls import patterns, include, url
+from django.views.generic import TemplateView
 from dashbuilder.views import List, Create, Update
 
 
 class Application(object):
     name = None
+    url_segment = None
 
     def __init__(self, app_name=None, **kwargs):
         self.app_name = app_name
@@ -28,13 +30,34 @@ class RegistryApplication(Application):
     Used for grouping the dashboard into sets of functionality
     """
     registry = []
+    index_view = TemplateView
+    index_template = 'dashbuilder/section_index.html'
 
-    def register(app):
+    def register(self, app):
         self.registry.append(app)
+
+    def get_urls(self):
+        urlpatterns = super(RegistryApplication, self).get_urls()
+
+        urlpatterns += patterns('', url(r'^$',
+            self.index_view.as_view(template_name=self.index_template)))
+
+        for app in self.registry:
+            print app.name
+            urlregex = r'^%s/' % app.name
+            urlpatterns += patterns('', url(urlregex, include(app.urls)))
+
+        print urlpatterns
+
+        return urlpatterns
 
 
 class Dashboard(RegistryApplication):
-    pass
+    name = 'Django Dashbuilder'
+
+
+class Section(RegistryApplication):
+    name = 'Group'
 
 
 class ModelApplication(Application):
@@ -58,10 +81,6 @@ class ModelApplication(Application):
         )
         return urlpatterns
 
-
-class SectionApplication(Application):
-    name = None
-    registry = []
 
     
 
