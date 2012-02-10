@@ -21,7 +21,7 @@ class Application(object):
     @property
     def urls(self):
         # We set the application and instance namespace here
-        return self.get_urls(), self.app_name, self.name
+        return self.get_urls(), self.name, self.name
 
 
 class RegistryApplication(Application):
@@ -43,17 +43,15 @@ class RegistryApplication(Application):
             self.index_view.as_view(template_name=self.index_template)))
 
         for app in self.registry:
-            print app.name
             urlregex = r'^%s/' % app.name
             urlpatterns += patterns('', url(urlregex, include(app.urls)))
-
-        print urlpatterns
-
+            print 'moo'
         return urlpatterns
 
 
 class Dashboard(RegistryApplication):
     name = 'Django Dashbuilder'
+    index_template = 'dashbuilder/index.html'
 
 
 class Section(RegistryApplication):
@@ -70,6 +68,7 @@ class ModelApplication(Application):
     update_form = None
 
     def get_urls(self):
+        print 'hi!'
         urlpatterns = super(ModelApplication, self).get_urls()
         urlpatterns += patterns('',
             url(r'^$', self.index_view.as_view(model=self.model, app=self), name='index'),
@@ -80,8 +79,4 @@ class ModelApplication(Application):
                     form_class=self.update_form), name='update'),
         )
         return urlpatterns
-
-
-    
-
 
