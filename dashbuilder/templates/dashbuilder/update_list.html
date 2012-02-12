@@ -1,58 +1,34 @@
 {% extends 'dashbuilder/base.html' %}
+{% load url from future %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li class="active">{{ verbose_name_plural }}</li>
+{% endblock %}
 
 {% block body %}
 <header class="page-title">
 
-<ul class="breadcrumb">
-  <li>
-  <a href="#">Dashboard</a> <span class="divider">/</span>
-  </li>
-  <li class="active">
-    {{ verbose_name_plural }}
-  </li>
-</ul>
-
-
-<h1>Listing {{ verbose_name_plural }}</h1>
-</header>
-
 {% if object_list %}
-<form action="." method="post">
-
-    {% csrf_token %}
-
-    {{ formset.management_form }}
-
     <table class="table table-bordered table-striped">
         <thead>
-        {% for field in field_list %}
-        <th>{{ field }}</th>
-        {% endfor %}
-        <th>Actions</th>
-    </thead>
-<tbody>
-        {% for form in formset %}
+            <th>{{ verbose_name_plural }}</th>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
         <tr>
-            {% for field in form %}
-            <td>
-                {{ field }}
-            </td>
-            {% endfor %}
+            <td><a href="{% url application.update_view_name object.pk %}">{{ object }}</a></td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
-  <button class="btn btn-primary">Update</button>
-
-
-</form>
-
 {% else %}
 <p>No {{ verbose_name_plural }} found</p>
 {% endif %}
 
-  <div class="form-actions">
-  <a class="btn" href="new/">New {{ verbose_name }}</a>
+<div class="form-actions">
+    <a class="btn" href="{% url application.create_view_name %}">New {{ verbose_name }}</a>
+
 </div>  
 
 {% endblock %}

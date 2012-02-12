@@ -1,4 +1,5 @@
 from extra_views import ModelFormSetView, CreateWithInlinesView, UpdateWithInlinesView 
+from django.views.generic import ListView
 
 class ModelViewMixin(object):
     verbose_name = None
@@ -19,12 +20,10 @@ class ModelViewMixin(object):
         return context
 
 
-class List(ModelViewMixin, ModelFormSetView):
-    extra = 0
+class List(ModelViewMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(List, self).get_context_data(**kwargs)
-        context['field_list'] = self.fields
         return context
 
     def get_template_names(self):

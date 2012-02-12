@@ -4,7 +4,7 @@ from django.contrib.redirects.models import Redirect
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.sites.models import Site
 
-from dashbuilder.application import Dashboard, RegistryApplication, ModelApplication
+from dashbuilder.application import Dashboard, Section, ModelApplication
 from dashbuilder.views import Create
 
 
@@ -14,16 +14,17 @@ class UsersApplication(ModelApplication):
     update_form = UserChangeForm
 
 
-class Group(RegistryApplication):
-    name = 'group'
+class Group(Section):
+    name = 'Group'
+    namespace = 'group'
     registry = [
-        ModelApplication(model=Redirect, name='redirects'),
-        ModelApplication(model=Site, name='sites'),
+        ModelApplication(model=Redirect, name='Redirects', namespace='redirects'),
+        ModelApplication(model=Site, name='Sites', namespace='sites'),
     ]
 
 
-dashboard = Dashboard(name='Dashboard Demo')
-dashboard.register(UsersApplication(name='users'))
+dashboard = Dashboard(namespace='dashboard', name='Dashboard Demo')
+dashboard.register(UsersApplication(name='Users', namespace='users'))
 dashboard.register(Group())
 
 urlpatterns = patterns('',

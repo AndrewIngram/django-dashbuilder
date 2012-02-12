@@ -31,12 +31,24 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Django Dashbuilder</a>
+          <a class="brand" href="{{ root_application.get_index_url }}">{{ root_application.name }}</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+                <li class="active"><a href="{{ root_application.get_index_url }}">Home</a></li>
+                {% for app in root_application.registry %}
+                {% if app.registry %}
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ app.name }} <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                {% for app in app.registry %}
+                <li><a href="{{ app.get_index_url }}">{{ app.name }}</a></li>
+                {% endfor %}
+                </ul>
+                </li>
+                {% else %}
+                <li><a href="{{ app.get_index_url }}">{{ app.name }}</a></li>
+                {% endif %}
+              {% endfor %}
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -44,6 +56,18 @@
     </div>
 
     <div class="container">
+
+    {% if application.parent %}
+    <ul class="breadcrumb">
+        {% block breadcrumbs %}
+        {% for ancestor in ancestor_applications %}
+        <li><a href="{{ ancestor.get_index_url }}">{{ ancestor.name }}</a>
+        <span class="divider">/</span></li>
+        {% endfor %}
+        {% endblock %}
+    </ul>
+    {% endif %}
+
 	{% block body %}
 	
 	
@@ -53,6 +77,11 @@
     <script src="{% static 'dashbuilder/js/jquery.js' %}"></script>
     <script src="{% static 'dashbuilder/bootstrap/js/bootstrap.min.js' %}"></script>
 
+    <script>
+    $(document).ready(function(){
+        // $('.dropdown-toggle').dropdown();
+    });
+    </script>
 </body>
 
 </html>

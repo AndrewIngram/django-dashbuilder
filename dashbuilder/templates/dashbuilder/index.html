@@ -1,15 +1,12 @@
 {% extends "dashbuilder/base.html" %}
 
+{% block breadcrumbs %}
+{{ block.super }}
+<li class="active">{{ application.name }}</li>
+{% endblock %}
+
 {% block body %}
 <header class="page-title">
-
-<ul class="breadcrumb">
-  <li class="active">
-  Dashboard
-  </li>
-</ul>
-
-
 <h1>Dashboard Index</h1>
 </header>
 
