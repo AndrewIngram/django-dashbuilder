@@ -3,7 +3,7 @@
 
 {% block breadcrumbs %}
 {{ block.super }}
-<li class="active">{{ verbose_name_plural }}</li>
+<li class="active">{{ verbose_name_plural|title }}</li>
 {% endblock %}
 
 {% block body %}
@@ -12,7 +12,7 @@
 {% if object_list %}
     <table class="table table-bordered table-striped">
         <thead>
-            <th>{{ verbose_name_plural }}</th>
+            <th>{{ verbose_name_plural|title }}</th>
         </thead>
         <tbody>
         {% for object in object_list %}
@@ -23,11 +23,11 @@
       </tbody>
     </table>
 {% else %}
-<p>No {{ verbose_name_plural }} found</p>
+<p>No {{ verbose_name_plural|title }} found</p>
 {% endif %}
 
 <div class="form-actions">
-    <a class="btn" href="{% url application.create_view_name %}">New {{ verbose_name }}</a>
+    <a class="btn" href="{% url application.create_view_name %}">New {{ verbose_name|title }}</a>
 
 </div>  
 
