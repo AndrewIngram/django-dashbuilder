@@ -34,10 +34,10 @@
           <a class="brand" href="{{ root_application.get_index_url }}">{{ root_application.name }}</a>
           <div class="nav-collapse">
             <ul class="nav">
-                <li class="active"><a href="{{ root_application.get_index_url }}">Home</a></li>
+                <li{% if application == root_application %} class="active"{% endif %}><a href="{{ root_application.get_index_url }}">Home</a></li>
                 {% for app in root_application.registry %}
                 {% if app.registry %}
-                <li class="dropdown">
+                <li class="dropdown{% if ancestor_applications.1 == app or application == app %} active{% endif %}">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ app.name }} <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                 {% for app in app.registry %}
@@ -46,7 +46,7 @@
                 </ul>
                 </li>
                 {% else %}
-                <li><a href="{{ app.get_index_url }}">{{ app.name }}</a></li>
+                <li{% if ancestor_applications.1 == app or application == app %} class="active"{% endif %}><a href="{{ app.get_index_url }}">{{ app.name }}</a></li>
                 {% endif %}
               {% endfor %}
             </ul>
