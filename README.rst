@@ -1,6 +1,8 @@
 Django Dashbuilder
 ==================
 
+**This project is still in very early development and is still missing a lot of important functionality that would make it usable. It also depends on Django 1.4 (alpha).**
+
 The goal of this library is to provide an alternative dashboad for situations where Django's existing admin app isn't flexible enough. Dashbuilder isn't intended to be a complete replacement, but rather a starting point for rolling your own dashbboards quickly.
 
 Dashbuilder is...
