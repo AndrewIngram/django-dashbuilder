@@ -8,12 +8,11 @@
 
 {% block body %}
 <header class="page-title">
+<h1>{{ verbose_name_plural|title }}</h1>
+</header>
 
 {% if object_list %}
     <table class="table table-bordered table-striped">
-        <thead>
-            <th>{{ verbose_name_plural|title }}</th>
-        </thead>
         <tbody>
         {% for object in object_list %}
         <tr>

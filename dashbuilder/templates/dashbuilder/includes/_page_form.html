@@ -1,0 +1,25 @@
+ {% csrf_token %}
+
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+
+    <fieldset>
+
+    {% for field in form.visible_fields %}
+    <div class="control-group{% if field.errors%} error{% endif %}">
+            {{ field.label_tag }}
+            <div class="controls">{{ field }}
+              {% if field.errors %}
+              <span class="help-inline">
+                 {% for error in field.errors%}
+                 {% if not forloop.first %}, {% endif %}{{ error }}{% endfor %}</span>
+              {% endif %}
+              {% if field.field.help_text %}<p class="help-block">{{ field.field.help_text|safe }}</p>{% endif %}
+            </div>
+        </div>
+
+    {% endfor %}
+
+</fieldset>
+

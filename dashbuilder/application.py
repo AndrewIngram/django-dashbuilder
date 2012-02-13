@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url 
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.views.generic import TemplateView
 from dashbuilder.views import List, Create, Update
 
@@ -77,7 +77,7 @@ class Application(object):
         return '%s%s:' % (prefix, self.namespace)
 
     def get_index_url(self):
-        return reverse('%sindex' % self.get_url_namespace())
+        return reverse_lazy('%sindex' % self.get_url_namespace())
 
     @property
     def urls(self):
@@ -109,6 +109,22 @@ class ModelApplication(Application):
             'model': self.model,
         }
 
+    def get_create_kwargs(self):
+        return {
+            'model': self.model,
+            'app': self,
+            'form_class': self.create_form,
+            'success_url': self.get_index_url(),
+        }
+
+    def get_update_kwargs(self):
+        return {
+            'model': self.model,
+            'app': self,
+            'form_class': self.update_form,
+            'success_url': self.get_index_url(),
+        }
+
     def create_view_name(self):
         return '%screate' % self.get_url_namespace()
 
@@ -118,12 +134,8 @@ class ModelApplication(Application):
     def get_urls(self):
         urlpatterns = super(ModelApplication, self).get_urls()
         urlpatterns += patterns('',
-            url(r'^new/$',
-                    self.view_wrapper(self.create_view.as_view(model=self.model,
-                        app=self, form_class=self.create_form)), name='create'),
-            url(r'^(?P<pk>[0-9]+)/$',
-                self.view_wrapper(self.update_view.as_view(model=self.model, app=self,
-                    form_class=self.update_form)), name='update'),
+            url(r'^new/$', self.view_wrapper(self.create_view.as_view(**self.get_create_kwargs())), name='create'),
+            url(r'^(?P<pk>[0-9]+)/$', self.view_wrapper(self.update_view.as_view(**self.get_update_kwargs())), name='update'),
         )
         return urlpatterns
 
